@@ -53,6 +53,10 @@ pnpm dev:web
 
 Web地址：`http://localhost:3000`。默认API地址为 `http://localhost:8000/api/v1`，可通过 `NEXT_PUBLIC_API_BASE_URL` 覆盖。
 
+## 公网演示
+
+GitHub Pages自动部署地址：`https://ongqan.github.io/voyage-copilot/`。公开Demo使用浏览器本地模拟数据，不会把访问者行程发送到服务端。部署配置和首次启用说明见[部署文档](document/12-DEPLOYMENT.md)。
+
 ### 测试
 
 ```bash
