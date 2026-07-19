@@ -1,0 +1,111 @@
+openapi: 3.1.0
+info:
+  title: Voyage Copilot API
+  version: 0.1.0
+  description: Sprint 0 行程纵向切片契约。
+servers:
+  - url: http://localhost:8000/api/v1
+components:
+  parameters:
+    DemoTenant:
+      in: header
+      name: X-Demo-Tenant-ID
+      required: true
+      schema: { type: string }
+    DemoUser:
+      in: header
+      name: X-Demo-User-ID
+      required: true
+      schema: { type: string }
+  schemas:
+    TripCreate:
+      type: object
+      additionalProperties: false
+      required: [flight_number, departure_airport, arrival_airport, departure_at, arrival_at]
+      properties:
+        flight_number: { type: string, minLength: 3, maxLength: 12 }
+        departure_airport: { type: string, minLength: 3, maxLength: 3 }
+        arrival_airport: { type: string, minLength: 3, maxLength: 3 }
+        departure_at: { type: string, format: date-time }
+        arrival_at: { type: string, format: date-time }
+        departure_terminal: { type: [string, "null"] }
+        arrival_terminal: { type: [string, "null"] }
+        party_adults: { type: integer, minimum: 1, maximum: 20, default: 1 }
+        party_children: { type: integer, minimum: 0, maximum: 20, default: 0 }
+    Trip:
+      allOf:
+        - $ref: "#/components/schemas/TripCreate"
+        - type: object
+          required: [id, tenant_id, user_id, status, version, created_at]
+          properties:
+            id: { type: string }
+            tenant_id: { type: string }
+            user_id: { type: string }
+            status: { type: string, enum: [DRAFT, CONFIRMED] }
+            version: { type: integer }
+            created_at: { type: string, format: date-time }
+            confirmed_at: { type: [string, "null"], format: date-time }
+paths:
+  /health:
+    get:
+      operationId: health
+      responses:
+        "200": { description: Healthy }
+  /me:
+    get:
+      operationId: getMe
+      parameters:
+        - $ref: "#/components/parameters/DemoTenant"
+        - $ref: "#/components/parameters/DemoUser"
+      responses:
+        "200": { description: Current demo identity }
+  /trips:
+    get:
+      operationId: listTrips
+      parameters:
+        - $ref: "#/components/parameters/DemoTenant"
+        - $ref: "#/components/parameters/DemoUser"
+      responses:
+        "200": { description: Current user's trips }
+    post:
+      operationId: createTrip
+      parameters:
+        - $ref: "#/components/parameters/DemoTenant"
+        - $ref: "#/components/parameters/DemoUser"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TripCreate" }
+      responses:
+        "201":
+          description: Trip draft created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Trip" }
+  /trips/{trip_id}:
+    get:
+      operationId: getTrip
+      parameters:
+        - in: path
+          name: trip_id
+          required: true
+          schema: { type: string }
+        - $ref: "#/components/parameters/DemoTenant"
+        - $ref: "#/components/parameters/DemoUser"
+      responses:
+        "200": { description: Trip }
+        "404": { description: Trip not found in current tenant/user scope }
+  /trips/{trip_id}/confirm:
+    post:
+      operationId: confirmTrip
+      parameters:
+        - in: path
+          name: trip_id
+          required: true
+          schema: { type: string }
+        - $ref: "#/components/parameters/DemoTenant"
+        - $ref: "#/components/parameters/DemoUser"
+      responses:
+        "200": { description: Confirmed trip }
+

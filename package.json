@@ -1,0 +1,12 @@
+{
+  "name": "voyage-copilot",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @voyage/web dev",
+    "build:web": "pnpm --filter @voyage/web build",
+    "typecheck:web": "pnpm --filter @voyage/web typecheck",
+    "test:api": ".venv/bin/python -m pytest apps/api/tests",
+    "check": "pnpm typecheck:web && pnpm test:api"
+  }
+}

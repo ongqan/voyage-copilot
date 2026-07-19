@@ -1,0 +1,27 @@
+# Node
+node_modules/
+.next/
+dist/
+coverage/
+.pnpm-store/
+*.tsbuildinfo
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Local data and secrets
+.data/
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.db
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/

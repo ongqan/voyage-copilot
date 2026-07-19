@@ -1,0 +1,25 @@
+{
+  "notice": "All records are fictional and for product development only.",
+  "tenant": {
+    "id": "tenant_demo_01",
+    "name": "Voyage Demo Tenant"
+  },
+  "user": {
+    "id": "user_demo_001",
+    "display_name": "林晨",
+    "membership_level": "臻享计划",
+    "roles": ["member"]
+  },
+  "trip_example": {
+    "flight_number": "MU5105",
+    "departure_airport": "SHA",
+    "arrival_airport": "PEK",
+    "departure_at": "2026-08-10T14:30:00+08:00",
+    "arrival_at": "2026-08-10T16:50:00+08:00",
+    "departure_terminal": "T2",
+    "arrival_terminal": "T2",
+    "party_adults": 1,
+    "party_children": 0
+  }
+}
+
